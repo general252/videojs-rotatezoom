@@ -1,0 +1,66 @@
+<head>
+    <title>rotate demo</title>
+    <link href="http://vjs.zencdn.net/5.8.8/video-js.css" rel="stylesheet">
+    <script src="http://vjs.zencdn.net/5.8.8/video.js"></script>
+
+    <!-- If you'd like to support IE8 -->
+    <script src="http://vjs.zencdn.net/ie8/1.1.2/videojs-ie8.min.js"></script>
+    <script src="videojs.zoomrotate.js"></script>
+</head>
+
+<body>
+    <div style="background-color:cadetblue; width:750px; height:500px; " id="parentDiv">
+        <video id="my-video" class="video-js vjs-default-skin vjs-big-play-centered" controls preload="auto" data-setup="{}" poster="http://vjs.zencdn.net/v/oceans.png">
+            <source src="http://vjs.zencdn.net/v/oceans.mp4" type="video/mp4">
+            <source src="rtmp://live.hkstv.hk.lxdns.com/live/hks" type="rtmp/flv" />
+        </video>
+    </div>
+    <br />
+
+    <br /><br />
+    <div>
+        <button onclick="OnBtnClick()">rotate 90</button>
+        <button onclick="PlayRtmp()">play rtmp</button>
+        <button onclick="PlayMp4()">play mp4</button>
+    </div>
+</body>
+
+<script type="text/javascript">
+
+    var angle = 0;
+    function OnBtnClick() {
+        angle += 90;
+        angle %= 360;
+
+        var player = videojs('my-video');
+        player.zoomrotate({
+            rotate: angle,
+            auto: true
+        });
+    }
+</script>
+
+
+<script>
+    window.onload = function () {
+        var obj = document.getElementById('my-video');
+        obj.style.width = '100%';
+        obj.style.height = '100%';
+    }
+
+    function PlayRtmp() {
+        var player = videojs('my-video');
+        player.src({ type: 'rtmp/flv', src: 'rtmp://live.hkstv.hk.lxdns.com/live/hks' });
+        player.play();
+
+        console.log('rtmp://live.hkstv.hk.lxdns.com/live/hks');
+    }
+
+    function PlayMp4() {
+        var player = videojs('my-video');
+        player.src({ type: 'video/mp4', src: 'http://vjs.zencdn.net/v/oceans.mp4' });
+        player.play();
+
+        console.log('http://vjs.zencdn.net/v/oceans.mp4');
+    }
+</script>
