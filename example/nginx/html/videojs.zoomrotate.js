@@ -88,10 +88,8 @@
 
             var parentWidth = parseFloat(getStyle(player, 'width'));
             var parentHeight = parseFloat(getStyle(player, 'height'));
-            //var videoWidth = parseFloat(video.videoWidth);
-            //var videoHeight = parseFloat(video.videoHeight);
-            var videoWidth = parseFloat(video.clientWidth);
-            var videoHeight = parseFloat(video.clientHeight);
+            var videoWidth = player.player.videoWidth();
+            var videoHeight = player.player.videoHeight();
 
             if (options.rotate % 180 == 0) {
                 options.zoom = 1;
