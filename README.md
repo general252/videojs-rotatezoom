@@ -19,7 +19,8 @@ It use the CSS scale property and the rotate property.
 
     video.zoomrotate({
       rotate: 90,
-      zoom: 1.5
+      zoom: 1.5,
+	  auto: false
     });
 
 or
@@ -33,9 +34,11 @@ Options
     defaults = {
       zoom: 1,
       rotate: 0,
+	  auto: true,
       debug: true
     };
 ```
+<font size="3" color="red">auto: </font><font size="3" color="green">等比例填充播放器窗口, 设置为false时, zoom参数有效</font>
 
 Known Issues
 ------------
