@@ -4,8 +4,9 @@ console.log('zoomrotate: Start');
     var defaults, extend;
     console.log('zoomrotate: Init defaults');
     defaults = {
-      zoom: 1,
+      zoom: 1, /** auto is false */
       rotate: 0,
+      auto: true, /** true: only support 90/180/270 */
       debug: true
     };
     extend = function() {
@@ -61,6 +62,50 @@ console.log('zoomrotate: Start');
             break;
           }
         }
+
+
+        if (options.auto) {
+            // get html element property
+            function getStyle(element, property) {
+                var proValue = null;
+                if (!document.defaultView) {
+                    proValue = element.currentStyle[property];
+                } else {
+                    proValue = document.defaultView.getComputedStyle(element)[property];
+                }
+                return proValue;
+            }
+
+            var parentWidth = parseFloat(getStyle(player, 'width'));
+            var parentHeight = parseFloat(getStyle(player, 'height'));
+            var videoWidth = parseFloat(video.videoWidth);
+            var videoHeight = parseFloat(video.videoHeight);
+
+            if (options.rotate % 180 == 0) {
+                options.zoom = 1;
+            }
+            else if (options.rotate % 180 == 90) {
+
+                var w_zoom = parentWidth / videoWidth;
+                var h_zoom = parentHeight / videoHeight;
+                var min_zoom = w_zoom > h_zoom ? h_zoom : w_zoom;
+
+                // get video display rect
+                var videoDispWidth = videoWidth * min_zoom;
+                var videoDispHeight = videoHeight * min_zoom;
+
+                var n_w_zoom = parentHeight / videoDispWidth;
+                var n_h_zoom = parentWidth / videoDispHeight;
+                var n_min_zoom = n_w_zoom > n_h_zoom ? n_h_zoom : n_w_zoom;
+
+                // get rotate 90/270 video display rect
+                var nVideoDispWidth = videoDispWidth * n_min_zoom;
+                var nVideoDispHeight = videoDispHeight * n_min_zoom;
+
+                options.zoom = n_min_zoom; // update zoom
+            }
+        }
+
 
         /* Let's do it */
         player.style.overflow = 'hidden';
